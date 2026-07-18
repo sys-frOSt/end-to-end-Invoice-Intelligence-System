@@ -1,3 +1,5 @@
 .venv
 inventory.db
 __pycache__
+
+models

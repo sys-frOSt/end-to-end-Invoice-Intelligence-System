@@ -14,8 +14,9 @@ from model_evaluation import (
 def main():
     project_root = Path(__file__).resolve().parent.parent
     db_path = project_root / "data" / "inventory.db"
-    model_dir = Path(__file__).resolve().parent / "models"
-    model_dir.mkdir(exist_ok=True)
+    # use repo-level models directory so all projects dump to the same parent
+    model_dir = project_root / "models"
+    model_dir.mkdir(parents=True, exist_ok=True)
     
     # Load data
     df = load_data_from_sqlite(db_path)
@@ -48,7 +49,7 @@ def main():
     best_model_name = best_model_info["model_name"]
     best_model = model_dict[best_model_name]
     
-    # Save best model
+    # Save best model to the shared top-level models directory
     model_path = model_dir / "predict_freight_model.pkl"
     joblib.dump(best_model, model_path)
     
